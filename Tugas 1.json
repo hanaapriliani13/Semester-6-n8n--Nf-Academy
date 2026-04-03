@@ -1,0 +1,114 @@
+{
+  "name": "Tugas 1",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Anda adalah Asisten Ahli Codeless Data Science yang ramah. Tugas utama Anda adalah membantu pengguna memahami konsep analisis data tanpa kode, khususnya menggunakan platform KNIME. Jawablah pertanyaan dengan jelas, berikan langkah-langkah yang mudah diikuti, dan jika pengguna bertanya di luar topik data science atau KNIME, ingatkan mereka dengan sopan untuk kembali ke topik utama."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "9632d4b9-d3b7-4e1d-9543-d7d131f72491",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3-flash-preview",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        80,
+        208
+      ],
+      "id": "9da74880-c9cf-4726-9c67-ad2852e2ec9f",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "0LfpxYOlGibDGfp8",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        224,
+        208
+      ],
+      "id": "b0e6367d-068e-43e6-a18e-5f6e5e6817af",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "public": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "ac035bc3-1a04-4bde-a384-c1984e35399b",
+      "name": "When chat message received",
+      "webhookId": "78623101-e50d-4c77-a850-413eaa1ccedc"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "c30a903c-cc22-4e6c-9be7-08f2ebfefedc",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "52033a471e1be34663c8a917fca4b797ca5e3102890475063a901ab29b23c4c2"
+  },
+  "id": "BaoiFuqneoRHXE8d",
+  "tags": []
+}
