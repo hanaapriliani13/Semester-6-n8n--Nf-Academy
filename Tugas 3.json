@@ -1,0 +1,160 @@
+{
+  "name": "Tugas 3",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Kamu adalah Bot Informasi Pelatihan NFA yang membantu pengguna mendapatkan informasi tentang program pelatihan di NFA.\nData pelatihan tersedia di Google Sheets dan dapat diakses menggunakan tool \"Get row(s) in sheet in Google Sheets\". \nTugas kamu adalah menjawab pertanyaan pengguna tentang: Jenis program pelatihan, Nama pelatihan, Deskripsi pelatihan, Harga atau biaya pelatihan.\n\nAturan: 1. Gunakan data dari Google Sheets untuk menjawab pertanyaan pengguna. 2. Gunakan tool **\\\"Get row(s) in sheet in Google Sheets\\\"** untuk mengambil data pelatihan. 3. Jangan membuat atau menambahkan informasi yang tidak ada di data. 4. Jika data tidak ditemukan, beri tahu pengguna bahwa data tidak tersedia. 5. Jawab menggunakan bahasa Indonesia yang jelas, singkat, dan ramah. 6. Jika pengguna meminta daftar pelatihan, tampilkan semua pelatihan yang tersedia di data\n\nGunakan data dari Google Sheets. Jawab dengan singkat. Jika tidak tahu, langsung katakan tidak tahu."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        48,
+        -96
+      ],
+      "id": "246f7db4-5fbd-48dd-8be0-0402913b0d6d",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -64,
+        160
+      ],
+      "id": "1e14336e-65b9-45d9-87dd-cb5e6d7d7d44",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "0LfpxYOlGibDGfp8",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionKey": "",
+        "contextWindowLength": 3
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        144,
+        160
+      ],
+      "id": "e0303f10-8d62-470f-b473-e1f050f55580",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1osiIRgBFswFRpq6C7BKti5haZFDKPCVl8rz5TjjeKsU",
+          "mode": "list",
+          "cachedResultName": "n8n",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1osiIRgBFswFRpq6C7BKti5haZFDKPCVl8rz5TjjeKsU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 841234632,
+          "mode": "list",
+          "cachedResultName": "Sheet2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1osiIRgBFswFRpq6C7BKti5haZFDKPCVl8rz5TjjeKsU/edit#gid=841234632"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        352,
+        144
+      ],
+      "id": "aa34a596-ab39-4400-9fec-cc294809366f",
+      "name": "Get row(s) in sheet in Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "GxUFsHnQjka4mrAz",
+          "name": "Google Service Account account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "Hi there! 👋\nSaya admin NFA, Silakan bertanya!",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -192,
+        -96
+      ],
+      "id": "60964bcf-ad3e-4da6-84c1-0a6b24ca58ef",
+      "name": "When chat message received",
+      "webhookId": "007f15ba-8edf-4ef7-b5d5-ede7cfeda485"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet in Google Sheets": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "6885ac0b-5c2d-463a-8ad8-c896ef445725",
+  "meta": {
+    "instanceId": "52033a471e1be34663c8a917fca4b797ca5e3102890475063a901ab29b23c4c2"
+  },
+  "id": "P7pDQ6Q5htugtg1y",
+  "tags": []
+}
